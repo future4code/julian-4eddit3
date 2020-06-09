@@ -1,19 +1,21 @@
 import React from "react";
 
 import { Switch, Route, BrowserRouter } from "react-router-dom";
+import Login from "../Paginas/Login/Login";
+import Feed from "../Paginas/Feed/Feed";
 
 function Rotas() {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/Login">
-          <div>Login</div>
+          <Login />
         </Route>
         <Route exact path="/Cadastro">
           Cadastro
         </Route>
         <Route exact path="/Feed">
-          Feed
+          <Feed />
         </Route>
         <Route exact path="/Post">
           Post
