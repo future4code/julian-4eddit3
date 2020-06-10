@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { useForm } from "../../hooks/useForm/useForm";
 
 import styled from "styled-components";
+
+import PaginaProtegida from "../../hooks/paginaProtegida/PaginaProtegida";
+import { getPosts } from "../../components/Request/getPosts";
+import { postCriarPost } from "../../components/Request/postCriarPost";
+import { putVotar } from "../../components/Request/putVotar";
 
 const ContainerFeed = styled.div`
   margin: 0 auto;
@@ -33,18 +40,24 @@ const ContainerRodapePost = styled.div`
 
 const ContainerRodapePostDiretita = styled.div`
   margin: 0 auto;
-  width: 70px;
-  align-items: flex-start;
+  width: 80px;
 `;
 
 const ContainerRodapePostEsquerda = styled.div`
   margin: 0 auto;
 `;
 
-const InputFormatado = styled.input`
+const InputFormatado = styled.textarea`
   margin: 10px auto;
   height: 60%;
   width: 95%;
+`;
+
+const PostFormatado = styled.p`
+  margin: 10px auto;
+  height: 60%;
+  width: 95%;
+  border: solid 1px black;
 `;
 
 const BotaoPostar = styled.button`
@@ -58,28 +71,111 @@ const BotaoCurtir = styled.button`
 `;
 
 function Feed() {
+  PaginaProtegida();
+  const [listaPosts, setListaPosts] = useState([]);
+  const history = useHistory();
+
+  const { form, onChange, resetForm } = useForm({
+    textoPost: "",
+    titulo: "",
+  });
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+
+    onChange(name, value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    console.log(form);
+  };
+
+  const onClickFazerPost = () => {
+    const body = {
+      text: form.textoPost,
+      title: "Não precisa",
+    };
+
+    postCriarPost(body)
+      .then((post) => {
+        console.log("Post Feito");
+        carregaPosts();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const onClickVotar = (id, voto) => {
+    const body = {
+      id: id,
+      direction: voto,
+    };
+    putVotar(body)
+      .then((voto) => {
+        carregaPosts();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const carregaPosts = () => {
+    getPosts()
+      .then((posts) => {
+        console.log("Get", posts);
+        setListaPosts(posts);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const postDetails = (id) => {
+    history.push("/post");
+  };
+
+  useEffect(() => {
+    carregaPosts();
+  }, []);
+
   return (
     <ContainerFeed>
       <ContainerFormPost>
-        <InputFormatado></InputFormatado>
-        <BotaoPostar>Postar</BotaoPostar>
+        <InputFormatado
+          type="text"
+          placeholder="Digite post que deseja"
+          onChange={handleInputChange}
+          value={form.textoPost}
+          name="textoPost"
+        ></InputFormatado>
+        <BotaoPostar onClick={onClickFazerPost}>Postar</BotaoPostar>
       </ContainerFormPost>
-      <ContainerPost>
-        <span>Usuário</span>
-
-        <InputFormatado></InputFormatado>
-        <ContainerRodapePost>
-          <ContainerRodapePostDiretita>
-            <BotaoCurtir>:)</BotaoCurtir>
-            <span> 0 </span>
-            <BotaoCurtir>:(</BotaoCurtir>
-          </ContainerRodapePostDiretita>
-          <ContainerRodapePostEsquerda>
-            <span>0 </span>
-            <span>Comentários</span>
-          </ContainerRodapePostEsquerda>
-        </ContainerRodapePost>
-      </ContainerPost>
+      {listaPosts.map((posts) => (
+        <ContainerPost key={posts.id}>
+          <span>{posts.username}</span>
+          <PostFormatado onClick={() => postDetails(posts.id)}>
+            {posts.text}
+          </PostFormatado>
+          <ContainerRodapePost>
+            <ContainerRodapePostDiretita>
+              <BotaoCurtir onClick={() => onClickVotar(posts.id, 1)}>
+                :)
+              </BotaoCurtir>
+              <span> {posts.votesCount} </span>
+              <BotaoCurtir onClick={() => onClickVotar(posts.id, -1)}>
+                :(
+              </BotaoCurtir>
+            </ContainerRodapePostDiretita>
+            <ContainerRodapePostEsquerda>
+              <span>0 </span>
+              <span>Comentários</span>
+            </ContainerRodapePostEsquerda>
+          </ContainerRodapePost>
+        </ContainerPost>
+      ))}
     </ContainerFeed>
   );
 }

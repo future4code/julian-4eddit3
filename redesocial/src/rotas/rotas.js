@@ -21,7 +21,7 @@ function Rotas() {
           Post
         </Route>
         <Route exact path="/">
-          <div>Login</div>
+          <Login />
         </Route>
         <Route path="/">Bugou o bagulho, volta aí parça</Route>
       </Switch>
