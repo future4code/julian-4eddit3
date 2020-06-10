@@ -3,25 +3,26 @@ import React from "react";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Login from "../Paginas/Login/Login";
 import Feed from "../Paginas/Feed/Feed";
+import Cadastro from '../Paginas/Cadastro'
 
 function Rotas() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/Login">
+        <Route exact path="/login">
           <Login />
         </Route>
-        <Route exact path="/Cadastro">
-          Cadastro
+        <Route exact path="/cadastro">
+          <Cadastro/>
         </Route>
-        <Route exact path="/Feed">
+        <Route exact path="/feed">
           <Feed />
         </Route>
-        <Route exact path="/Post">
+        <Route exact path="/post">
           Post
         </Route>
         <Route exact path="/">
-          <div>Login</div>
+          <Login />
         </Route>
         <Route path="/">Bugou o bagulho, volta aí parça</Route>
       </Switch>
