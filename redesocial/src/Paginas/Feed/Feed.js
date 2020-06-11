@@ -8,7 +8,12 @@ import PaginaProtegida from "../../hooks/paginaProtegida/PaginaProtegida";
 import { getPosts } from "../../components/Request/getPosts";
 import { postCriarPost } from "../../components/Request/postCriarPost";
 import { putVotar } from "../../components/Request/putVotar";
+import { getDetalhesPost } from "../../components/Request/getDetalhesPost";
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+import Post from "../../Paginas/Post/index";
 
 const ContainerFeed = styled.div`
   margin: 0 auto;
@@ -42,7 +47,7 @@ const ContainerRodapePost = styled.div`
 
 const ContainerRodapePostDiretita = styled.div`
   margin: 0 auto;
-  width: 80px;
+  width: 200px;
 `;
 
 const ContainerRodapePostEsquerda = styled.div`
@@ -75,6 +80,7 @@ const BotaoCurtir = styled.button`
 function Feed() {
   PaginaProtegida();
   const [listaPosts, setListaPosts] = useState([]);
+  const [listaDetalhesPost, setListaDetalhesPost] = useState([]);
   const history = useHistory();
 
   const { form, onChange, resetForm } = useForm({
@@ -135,8 +141,19 @@ function Feed() {
       });
   };
 
-  const postDetails = (id) => {
-    history.push("/post");
+  const carregaDetalhesDoPost = () => {
+    getDetalhesPost()
+      .then((detalhesPosts) => {
+        console.log("Detahes Post", detalhesPosts);
+        setListaDetalhesPost(detalhesPosts);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const postDetails = (postId, username, text) => {
+    history.push(`/post/${postId}`);
   };
 
   useEffect(() => {
@@ -164,18 +181,20 @@ function Feed() {
       {listaPosts.map((posts) => (
         <ContainerPost key={posts.id}>
           <span>{posts.username}</span>
-          <PostFormatado onClick={() => postDetails(posts.id)}>
+          <PostFormatado
+            onClick={() => postDetails(posts.id, posts.username, posts.text)}
+          >
             {posts.text}
           </PostFormatado>
           <ContainerRodapePost>
             <ContainerRodapePostDiretita>
-              <BotaoCurtir onClick={() => onClickVotar(posts.id, 1)}>
-                :)
-              </BotaoCurtir>
+              <IconButton onClick={() => onClickVotar(posts.id, 1)}>
+                <ThumbUpAltIcon />
+              </IconButton>
               <span> {posts.votesCount} </span>
-              <BotaoCurtir onClick={() => onClickVotar(posts.id, -1)}>
-                :(
-              </BotaoCurtir>
+              <IconButton onClick={() => onClickVotar(posts.id, -1)}>
+                <ThumbDownIcon />
+              </IconButton>
             </ContainerRodapePostDiretita>
             <ContainerRodapePostEsquerda>
               <span>0 </span>
