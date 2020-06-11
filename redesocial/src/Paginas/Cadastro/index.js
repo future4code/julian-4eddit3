@@ -13,7 +13,21 @@ const Cadastro = () => {
   const [inputUsuario, setInputUsuario] = useState("");
   const history = useHistory();
 
-  useEffect(() => {}, []);
+  const confirmaCadastro = () => {
+    axios
+      .post('https://us-central1-labenu-apis.cloudfunctions.net/labEddit/signup', {
+        email: inputEmail,
+        password: inputSenha,
+        username: inputUsuario
+      })
+      .then(response => {
+        localStorage.setItem("token", response.token)
+        history.push('/feed')
+      })
+      .catch(error => {
+        window.alert(error)
+      })
+  }
 
   const onClickCadastrar = () => {
     if (inputUsuario === "") {
@@ -27,7 +41,7 @@ const Cadastro = () => {
     } else if (inputSenha === "") {
       window.alert("Senha Inválida");
     } else {
-      history.push("/feed");
+      confirmaCadastro()
     }
   };
 
