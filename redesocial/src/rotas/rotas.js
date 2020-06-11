@@ -18,7 +18,7 @@ function Rotas() {
         <Route exact path="/feed">
           <Feed />
         </Route>
-        <Route exact path="/post">
+        <Route exact path="/post/:postId">
           <Post />
         </Route>
         <Route exact path="/">
