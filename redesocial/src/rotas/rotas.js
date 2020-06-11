@@ -3,7 +3,7 @@ import React from "react";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Login from "../Paginas/Login/Login";
 import Feed from "../Paginas/Feed/Feed";
-import Cadastro from '../Paginas/Cadastro'
+import Cadastro from "../Paginas/Cadastro";
 
 function Rotas() {
   return (
@@ -13,7 +13,7 @@ function Rotas() {
           <Login />
         </Route>
         <Route exact path="/cadastro">
-          <Cadastro/>
+          <Cadastro />
         </Route>
         <Route exact path="/feed">
           <Feed />

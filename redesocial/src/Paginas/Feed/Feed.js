@@ -8,6 +8,7 @@ import PaginaProtegida from "../../hooks/paginaProtegida/PaginaProtegida";
 import { getPosts } from "../../components/Request/getPosts";
 import { postCriarPost } from "../../components/Request/postCriarPost";
 import { putVotar } from "../../components/Request/putVotar";
+import Button from "@material-ui/core/Button";
 
 const ContainerFeed = styled.div`
   margin: 0 auto;
@@ -20,6 +21,7 @@ const ContainerFormPost = styled.div`
   width: 400px;
   height: 200px;
   border: solid 1px black;
+  align-items: center;
 `;
 
 const ContainerPost = styled.div`
@@ -60,7 +62,7 @@ const PostFormatado = styled.p`
   border: solid 1px black;
 `;
 
-const BotaoPostar = styled.button`
+const BotaoPostar = styled(Button)`
   margin: 5px auto;
   width: 80px;
   height: 30px;
@@ -151,7 +153,13 @@ function Feed() {
           value={form.textoPost}
           name="textoPost"
         ></InputFormatado>
-        <BotaoPostar onClick={onClickFazerPost}>Postar</BotaoPostar>
+        <BotaoPostar
+          variant="contained"
+          color="primary"
+          onClick={onClickFazerPost}
+        >
+          Postar
+        </BotaoPostar>
       </ContainerFormPost>
       {listaPosts.map((posts) => (
         <ContainerPost key={posts.id}>
