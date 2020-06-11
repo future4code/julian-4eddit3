@@ -1,14 +1,9 @@
 import React from "react";
-
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Login from "../Paginas/Login/Login";
 import Feed from "../Paginas/Feed/Feed";
-<<<<<<< HEAD
-import Cadastro from '../Paginas/Cadastro'
-import Post from '../Paginas/Post'
-=======
 import Cadastro from "../Paginas/Cadastro";
->>>>>>> funcionalidades
+import Post from '../Paginas/Post'
 
 function Rotas() {
   return (
