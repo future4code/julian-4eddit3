@@ -7,21 +7,24 @@ import { useHistory } from "react-router-dom";
 
 import { useForm } from "../../hooks/useForm/useForm";
 import { postLogin } from "../../components/Request/postLogin";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 
 const ContainerLogin = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  align-items: center;
+  margin-top: 10%;
 `;
 
-const InputFormatado = styled.input`
+const InputFormatado = styled(TextField)`
   width: 200px;
   margin: 10px auto;
 `;
 
-const Botao = styled.button`
+const Botao = styled(Button)`
   width: 100px;
-  margin: 10px auto;
+  margin-top: 200px;
 `;
 
 function Login() {
@@ -77,6 +80,7 @@ function Login() {
           pattern="[A-Za-z ]{3,}"
           title="O campo e-mail deve conter pelo menos 3 letras"
         ></InputFormatado>
+        <br />
         <InputFormatado
           type="password"
           placeholder="Senha"
@@ -87,8 +91,14 @@ function Login() {
           pattern="[ ]{6,}"
           title="A senha deve conter pelo menos 6 caracteres"
         ></InputFormatado>
-        <Botao onClick={onClickEntrar}>Entrar</Botao>
-        <Botao onClick={onClickCadastrar}>Cadastrar</Botao>
+        <br />
+        <Botao variant="contained" color="primary" onClick={onClickEntrar}>
+          Entrar
+        </Botao>
+        <br />
+        <Botao variant="contained" color="primary" onClick={onClickCadastrar}>
+          Cadastrar
+        </Botao>
       </ContainerLogin>
     </form>
   );
