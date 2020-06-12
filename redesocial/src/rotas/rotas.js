@@ -4,6 +4,7 @@ import Login from "../Paginas/Login/Login";
 import Feed from "../Paginas/Feed/Feed";
 import Cadastro from "../Paginas/Cadastro";
 import Post from '../Paginas/Post'
+import HomePage from '../Paginas/HomePage'
 
 function Rotas() {
 
@@ -26,7 +27,7 @@ function Rotas() {
           <Post />
         </Route>
         <Route exact path="/">
-          {token !== null || tokenSessao !== null ? <Feed /> : <Login />}
+          <HomePage />
         </Route>
         <Route path="/">Bugou o bagulho, volta aí parça</Route>
       </Switch>
