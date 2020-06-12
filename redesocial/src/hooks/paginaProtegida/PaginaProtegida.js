@@ -4,10 +4,12 @@ import { useHistory } from "react-router-dom";
 export const usePaginaProtegida = () => {
   const history = useHistory();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
+  const tokenSessao = sessionStorage.getItem("token")
 
-    if (token === null) {
+  useEffect(() => {
+
+    if (token === null && tokenSessao === null) {
       history.push("/Login");
     }
   }, [history]);

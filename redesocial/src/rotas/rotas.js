@@ -6,6 +6,10 @@ import Cadastro from "../Paginas/Cadastro";
 import Post from '../Paginas/Post'
 
 function Rotas() {
+
+  const token = localStorage.getItem('token')
+  const tokenSessao = sessionStorage.getItem('token')
+
   return (
     <BrowserRouter>
       <Switch>
@@ -22,7 +26,7 @@ function Rotas() {
           <Post />
         </Route>
         <Route exact path="/">
-          <Login />
+          {token !== null || tokenSessao !== null ? <Feed /> : <Login />}
         </Route>
         <Route path="/">Bugou o bagulho, volta aí parça</Route>
       </Switch>
