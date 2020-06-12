@@ -3,12 +3,11 @@ import { useHistory } from "react-router-dom";
 import { useForm } from "../../hooks/useForm/useForm";
 
 import styled from "styled-components";
-import Header from '../../components/Header'
+import Header from "../../components/Header";
 import PaginaProtegida from "../../hooks/paginaProtegida/PaginaProtegida";
 import { getPosts } from "../../components/Request/getPosts";
 import { postCriarPost } from "../../components/Request/postCriarPost";
 import { putVotar } from "../../components/Request/putVotar";
-import { getDetalhesPost } from "../../components/Request/getDetalhesPost";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
@@ -72,14 +71,9 @@ const BotaoPostar = styled(Button)`
   height: 30px;
 `;
 
-const BotaoCurtir = styled.button`
-  width: 25px;
-`;
-
 function Feed() {
   PaginaProtegida();
   const [listaPosts, setListaPosts] = useState([]);
-  const [listaDetalhesPost, setListaDetalhesPost] = useState([]);
   const history = useHistory();
 
   const { form, onChange, resetForm } = useForm({
@@ -93,12 +87,6 @@ function Feed() {
     onChange(name, value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    console.log(form);
-  };
-
   const onClickFazerPost = () => {
     const body = {
       text: form.textoPost,
@@ -107,8 +95,8 @@ function Feed() {
 
     postCriarPost(body)
       .then((post) => {
-        console.log("Post Feito");
         carregaPosts();
+        resetForm();
       })
       .catch((error) => {
         console.log(error);
@@ -134,17 +122,6 @@ function Feed() {
       .then((posts) => {
         console.log("Get", posts);
         setListaPosts(posts);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const carregaDetalhesDoPost = () => {
-    getDetalhesPost()
-      .then((detalhesPosts) => {
-        console.log("Detahes Post", detalhesPosts);
-        setListaDetalhesPost(detalhesPosts);
       })
       .catch((error) => {
         console.log(error);
@@ -177,7 +154,7 @@ function Feed() {
             onClick={onClickFazerPost}
           >
             Postar
-        </BotaoPostar>
+          </BotaoPostar>
         </ContainerFormPost>
         {listaPosts.map((posts) => (
           <ContainerPost key={posts.id}>
@@ -193,12 +170,12 @@ function Feed() {
                   <ThumbUpAltIcon />
                 </IconButton>
                 <span> {posts.votesCount} </span>
-                <IconButton onClick={() => onClickVotar(posts.id, -1)}>
+                <IconButton onClick={() => onClickVotar(posts.id, 0)}>
                   <ThumbDownIcon />
                 </IconButton>
               </ContainerRodapePostDiretita>
               <ContainerRodapePostEsquerda>
-                <span>0 </span>
+                <span>{posts.commentsCount} </span>
                 <span>Comentários</span>
               </ContainerRodapePostEsquerda>
             </ContainerRodapePost>

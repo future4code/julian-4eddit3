@@ -6,9 +6,9 @@ if (token === null) {
   token = sessionStorage.getItem("token");
 }
 
-export const putVotar = async (body) => {
+export const putVotarComentario = async (body) => {
   const response = await axios.put(
-    `https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts/${body.id}/vote`,
+    `https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts/${body.idpost}/comment/${body.idcomment}/vote`,
     body,
     {
       headers: {

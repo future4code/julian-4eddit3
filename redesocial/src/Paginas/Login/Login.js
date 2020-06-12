@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Header from '../../components/Header'
+import Header from "../../components/Header";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { useForm } from "../../hooks/useForm/useForm";
 import { postLogin } from "../../components/Request/postLogin";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 const ContainerLogin = styled.div`
   display: flex;
@@ -33,10 +33,9 @@ function Login() {
   const { form, onChange, resetForm } = useForm({
     email: "",
     senha: "",
-    
   });
 
-  const [manterLogin, setManterLogin] = useState(false)
+  const [manterLogin, setManterLogin] = useState(false);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -45,8 +44,8 @@ function Login() {
   };
 
   const handleCheckChange = (event) => {
-    setManterLogin(event.target.checked)
-  }
+    setManterLogin(event.target.checked);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -60,20 +59,18 @@ function Login() {
       password: form.senha,
     };
 
-    if(manterLogin === true){
+    if (manterLogin === true) {
       postLogin(body)
         .then((response) => {
-          console.log("Logado", response);
           localStorage.setItem("token", response.token);
           history.push("/feed");
         })
         .catch((error) => {
           console.log(error);
         });
-    }else{
+    } else {
       postLogin(body)
         .then((response) => {
-          console.log("Logado", response);
           sessionStorage.setItem("token", response.token);
           history.push("/Feed");
         })
@@ -85,7 +82,7 @@ function Login() {
 
   const apertaEnter = (event) => {
     if (event.keyCode === 13) {
-      onClickEntrar()
+      onClickEntrar();
     }
   };
 

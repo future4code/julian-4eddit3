@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Header from '../../components/Header'
+import Header from "../../components/Header";
 
 const Cadastro = () => {
   const [inputEmail, setInputEmail] = useState("");
@@ -15,19 +15,22 @@ const Cadastro = () => {
 
   const confirmaCadastro = () => {
     axios
-      .post('https://us-central1-labenu-apis.cloudfunctions.net/labEddit/signup', {
-        email: inputEmail,
-        password: inputSenha,
-        username: inputUsuario
+      .post(
+        "https://us-central1-labenu-apis.cloudfunctions.net/labEddit/signup",
+        {
+          email: inputEmail,
+          password: inputSenha,
+          username: inputUsuario,
+        }
+      )
+      .then((response) => {
+        localStorage.setItem("token", response.token);
+        history.push("/feed");
       })
-      .then(response => {
-        localStorage.setItem("token", response.token)
-        history.push('/feed')
-      })
-      .catch(error => {
-        window.alert(error)
-      })
-  }
+      .catch((error) => {
+        window.alert(error);
+      });
+  };
 
   const onClickCadastrar = () => {
     if (inputUsuario === "") {
@@ -41,7 +44,7 @@ const Cadastro = () => {
     } else if (inputSenha === "") {
       window.alert("Senha Inválida");
     } else {
-      confirmaCadastro()
+      confirmaCadastro();
     }
   };
 
@@ -82,7 +85,11 @@ const Cadastro = () => {
           />
         </div>
         <div>
-          <Button variant="contained" color="primary" onClick={onClickCadastrar}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onClickCadastrar}
+          >
             Cadastrar
           </Button>
         </div>
