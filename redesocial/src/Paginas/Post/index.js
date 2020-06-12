@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import CardComment from "../../components/CardComment";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
@@ -16,7 +15,7 @@ import { useForm } from "../../hooks/useForm/useForm";
 import { useParams } from "react-router-dom";
 import { getDetalhesPost } from "../../components/Request/getDetalhesPost";
 import { postCriarComentario } from "../../components/Request/postCriarComentario";
-import Header from '../../components/Header'
+import Header from "../../components/Header";
 
 const Post = () => {
   PaginaProtegida();
@@ -24,8 +23,6 @@ const Post = () => {
   const [comentarios, setComentarios] = useState([]);
 
   const params = useParams();
-
-  const history = useHistory();
 
   const { form, onChange, resetForm } = useForm({
     comentario: "",
@@ -37,12 +34,6 @@ const Post = () => {
     onChange(name, value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    console.log(form);
-  };
-
   const onClickFazerComentario = () => {
     const body = {
       text: form.comentario,
@@ -51,7 +42,8 @@ const Post = () => {
 
     postCriarComentario(body)
       .then((comentario) => {
-        console.log("comenterio", comentario);
+        carregaPosts();
+        resetForm();
       })
       .catch((error) => {
         console.log(error);
@@ -61,7 +53,6 @@ const Post = () => {
   const carregaPosts = () => {
     getDetalhesPost(`${params.postId}`)
       .then((posts) => {
-        console.log("Get", posts.post.comments);
         setPost(posts.post);
         setComentarios(posts.post.comments);
       })
@@ -122,10 +113,13 @@ const Post = () => {
         {comentarios.map((coments) => {
           return (
             <CardComment
+              updatePost={carregaPosts}
               key={coments.id}
               nomeUsuario={coments.username}
               comentario={coments.text}
               votosComentario={coments.votesCount}
+              idComentarios={coments.id}
+              idPost={`${params.postId}`}
             />
           );
         })}
