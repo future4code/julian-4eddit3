@@ -16,6 +16,7 @@ import { useForm } from "../../hooks/useForm/useForm";
 import { useParams } from "react-router-dom";
 import { getDetalhesPost } from "../../components/Request/getDetalhesPost";
 import { postCriarComentario } from "../../components/Request/postCriarComentario";
+import Header from '../../components/Header'
 
 const Post = () => {
   PaginaProtegida();
@@ -75,6 +76,7 @@ const Post = () => {
 
   return (
     <div>
+      <Header />
       <Container>
         <Card>
           <CardContent>

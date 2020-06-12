@@ -1,5 +1,11 @@
 import axios from "axios";
 
+let token = localStorage.getItem('token')
+
+if (token === null) {
+  token = sessionStorage.getItem('token')
+}
+
 export const putVotar = async (body) => {
   console.log("valor do voto", body.direction);
   const response = await axios.put(
@@ -7,7 +13,7 @@ export const putVotar = async (body) => {
     body,
     {
       headers: {
-        authorization: localStorage.getItem("token"),
+        authorization: token,
       },
     }
   );

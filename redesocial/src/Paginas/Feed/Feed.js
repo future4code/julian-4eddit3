@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useForm } from "../../hooks/useForm/useForm";
 
 import styled from "styled-components";
-
+import Header from '../../components/Header'
 import PaginaProtegida from "../../hooks/paginaProtegida/PaginaProtegida";
 import { getPosts } from "../../components/Request/getPosts";
 import { postCriarPost } from "../../components/Request/postCriarPost";
@@ -13,7 +13,6 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
-import Post from "../../Paginas/Post/index";
 
 const ContainerFeed = styled.div`
   margin: 0 auto;
@@ -161,49 +160,52 @@ function Feed() {
   }, []);
 
   return (
-    <ContainerFeed>
-      <ContainerFormPost>
-        <InputFormatado
-          type="text"
-          placeholder="Digite post que deseja"
-          onChange={handleInputChange}
-          value={form.textoPost}
-          name="textoPost"
-        ></InputFormatado>
-        <BotaoPostar
-          variant="contained"
-          color="primary"
-          onClick={onClickFazerPost}
-        >
-          Postar
-        </BotaoPostar>
-      </ContainerFormPost>
-      {listaPosts.map((posts) => (
-        <ContainerPost key={posts.id}>
-          <span>{posts.username}</span>
-          <PostFormatado
-            onClick={() => postDetails(posts.id, posts.username, posts.text)}
+    <div>
+      <Header />
+      <ContainerFeed>
+        <ContainerFormPost>
+          <InputFormatado
+            type="text"
+            placeholder="Digite post que deseja"
+            onChange={handleInputChange}
+            value={form.textoPost}
+            name="textoPost"
+          ></InputFormatado>
+          <BotaoPostar
+            variant="contained"
+            color="primary"
+            onClick={onClickFazerPost}
           >
-            {posts.text}
-          </PostFormatado>
-          <ContainerRodapePost>
-            <ContainerRodapePostDiretita>
-              <IconButton onClick={() => onClickVotar(posts.id, 1)}>
-                <ThumbUpAltIcon />
-              </IconButton>
-              <span> {posts.votesCount} </span>
-              <IconButton onClick={() => onClickVotar(posts.id, -1)}>
-                <ThumbDownIcon />
-              </IconButton>
-            </ContainerRodapePostDiretita>
-            <ContainerRodapePostEsquerda>
-              <span>0 </span>
-              <span>Comentários</span>
-            </ContainerRodapePostEsquerda>
-          </ContainerRodapePost>
-        </ContainerPost>
-      ))}
-    </ContainerFeed>
+            Postar
+        </BotaoPostar>
+        </ContainerFormPost>
+        {listaPosts.map((posts) => (
+          <ContainerPost key={posts.id}>
+            <span>{posts.username}</span>
+            <PostFormatado
+              onClick={() => postDetails(posts.id, posts.username, posts.text)}
+            >
+              {posts.text}
+            </PostFormatado>
+            <ContainerRodapePost>
+              <ContainerRodapePostDiretita>
+                <IconButton onClick={() => onClickVotar(posts.id, 1)}>
+                  <ThumbUpAltIcon />
+                </IconButton>
+                <span> {posts.votesCount} </span>
+                <IconButton onClick={() => onClickVotar(posts.id, -1)}>
+                  <ThumbDownIcon />
+                </IconButton>
+              </ContainerRodapePostDiretita>
+              <ContainerRodapePostEsquerda>
+                <span>0 </span>
+                <span>Comentários</span>
+              </ContainerRodapePostEsquerda>
+            </ContainerRodapePost>
+          </ContainerPost>
+        ))}
+      </ContainerFeed>
+    </div>
   );
 }
 
