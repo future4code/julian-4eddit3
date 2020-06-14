@@ -6,26 +6,24 @@ import Button from '@material-ui/core/Button'
 
 const Header = () => {
 
-    const token = localStorage.getItem('token')
-    const tokenSessao = sessionStorage.getItem('token')
     const history = useHistory()
 
     const onClickLogout = () => {
         localStorage.clear()
         sessionStorage.clear()
-        history.push('/login')
+        history.push('/')
+        history.go()
     }
 
-    const onClickLogin = () => {
-        history.push('/login')
+    const onClickFeed = () => {
+        history.push('/')
     }
     return(
         <div>
             <AppBar position="static">
                 <Toolbar>
-                    {token !== null || tokenSessao !== null ? 
-                    <Button color="inherit" onClick={onClickLogout}>Logout</Button> :
-                    <Button color="inherit" onClick={onClickLogin}>Login</Button>}
+                    <Button color="inherit" onClick={onClickFeed}>Feed</Button>
+                    <Button color="inherit" edge="end" onClick={onClickLogout}>Logout</Button>
                 </Toolbar>
             </AppBar>
         </div>

@@ -34,17 +34,24 @@ const CardComment = (props) => {
         <Typography>{props.comentario}</Typography>
       </CardContent>
 
-      <CardActions>
-        <IconButton onClick={() => onClickVotarComentario(1)}>
-          <ThumbUpAltIcon />
-        </IconButton>
-        <Typography>{props.votosComentario}</Typography>
-        <IconButton onClick={() => onClickVotarComentario(0)}>
-          <ThumbDownIcon />
-        </IconButton>
-      </CardActions>
-    </Card>
-  );
-};
+            <CardActions>
+                {props.likeComentario === 1 ? <IconButton color="primary" onClick={props.onClickRemoverVotoComentario}>
+                    <ThumbUpAltIcon />
+                </IconButton> : 
+                <IconButton onClick={props.onClickLikeComentario}>
+                    <ThumbUpAltIcon />
+                </IconButton> }
+                <Typography>{props.votosComentario}</Typography>
+                {props.likeComentario === -1 ? <IconButton color="primary" onClick={props.onClickRemoverVotoComentario}>
+                    <ThumbDownIcon />
+                </IconButton> : 
+                    <IconButton onClick={props.onClickDislikeComentario}>
+                        <ThumbDownIcon />
+                    </IconButton>}
+                
+            </CardActions>
+        </Card>
+    )
+}
 
 export default CardComment;

@@ -10,7 +10,7 @@ export const usePaginaProtegida = () => {
   useEffect(() => {
 
     if (token === null && tokenSessao === null) {
-      history.push("/Login");
+      history.push("/");
     }
   }, [history]);
 };
