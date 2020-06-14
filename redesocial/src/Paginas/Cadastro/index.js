@@ -22,7 +22,7 @@ const Cadastro = () => {
       })
       .then(response => {
         localStorage.setItem("token", response.token)
-        history.push('/feed')
+        history.go()
       })
       .catch(error => {
         window.alert(error)
@@ -53,9 +53,7 @@ const Cadastro = () => {
 
   return (
     <div>
-      <Header />
       <Container>
-        <Typography variant="h2">Cadastro</Typography>
         <div>
           <TextField
             label="Nome de usuário"
