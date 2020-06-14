@@ -94,7 +94,7 @@ const Cadastro = () => {
             type="password"
           />
         </div>
-
+        <div>
           <Botao variant="contained" color="primary" onClick={onClickCadastrar}>
             Cadastrar
           </Botao>
