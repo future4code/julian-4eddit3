@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import styled from 'styled-components'
 import { useHistory } from "react-router-dom";
@@ -6,7 +6,7 @@ import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Header from '../../components/Header'
+import Header from "../../components/Header";
 
 const Botao = styled(Button)`
     &&{
@@ -22,10 +22,17 @@ const Cadastro = () => {
 
   const confirmaCadastro = () => {
     axios
-      .post('https://us-central1-labenu-apis.cloudfunctions.net/labEddit/signup', {
-        email: inputEmail,
-        password: inputSenha,
-        username: inputUsuario
+      .post(
+        "https://us-central1-labenu-apis.cloudfunctions.net/labEddit/signup",
+        {
+          email: inputEmail,
+          password: inputSenha,
+          username: inputUsuario,
+        }
+      )
+      .then((response) => {
+        localStorage.setItem("token", response.token);
+        history.push("/feed");
       })
       .then(response => {
         localStorage.setItem("token", response.token)
@@ -35,6 +42,7 @@ const Cadastro = () => {
         window.alert(error)
       })
   }
+
 
   const onClickCadastrar = () => {
     if (inputUsuario === "") {
@@ -48,7 +56,7 @@ const Cadastro = () => {
     } else if (inputSenha === "") {
       window.alert("Senha Inválida");
     } else {
-      confirmaCadastro()
+      confirmaCadastro();
     }
   };
 
@@ -86,7 +94,7 @@ const Cadastro = () => {
             type="password"
           />
         </div>
-        <div>
+
           <Botao variant="contained" color="primary" onClick={onClickCadastrar}>
             Cadastrar
           </Botao>

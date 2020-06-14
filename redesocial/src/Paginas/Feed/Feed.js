@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useForm } from "../../hooks/useForm/useForm";
 import styled from "styled-components";
-import Header from '../../components/Header'
+import Header from "../../components/Header";
 import PaginaProtegida from "../../hooks/paginaProtegida/PaginaProtegida";
 import { getPosts } from "../../components/Request/getPosts";
 import { postCriarPost } from "../../components/Request/postCriarPost";
 import { putVotar } from "../../components/Request/putVotar";
-import { getDetalhesPost } from "../../components/Request/getDetalhesPost";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
@@ -55,12 +54,6 @@ function Feed() {
     onChange(name, value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    console.log(form);
-  };
-
   const onClickFazerPost = () => {
     const body = {
       text: form.textoPost,
@@ -69,8 +62,8 @@ function Feed() {
 
     postCriarPost(body)
       .then((post) => {
-        console.log("Post Feito");
         carregaPosts();
+        resetForm();
       })
       .catch((error) => {
         console.log(error);
@@ -111,17 +104,6 @@ function Feed() {
         setOpenBackdrop(false)
         console.log("Get", posts);
         setListaPosts(posts);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const carregaDetalhesDoPost = () => {
-    getDetalhesPost()
-      .then((detalhesPosts) => {
-        console.log("Detahes Post", detalhesPosts);
-        setListaDetalhesPost(detalhesPosts);
       })
       .catch((error) => {
         console.log(error);

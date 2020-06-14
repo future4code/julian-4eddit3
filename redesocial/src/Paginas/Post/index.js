@@ -44,8 +44,6 @@ const Post = () => {
 
   const params = useParams();
 
-  const history = useHistory();
-
   const { form, onChange, resetForm } = useForm({
     comentario: "",
   });
@@ -56,12 +54,6 @@ const Post = () => {
     onChange(name, value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    console.log(form);
-  };
-
   const onClickFazerComentario = () => {
     const body = {
       text: form.comentario,
@@ -70,7 +62,8 @@ const Post = () => {
 
     postCriarComentario(body)
       .then((comentario) => {
-        console.log("comenterio", comentario);
+        carregaPosts();
+        resetForm();
       })
       .catch((error) => {
         console.log(error);
@@ -82,6 +75,7 @@ const Post = () => {
       .then((posts) => {
         console.log("Get", posts.post.comments);
         setOpenBackdrop(false)
+
         setPost(posts.post);
         setComentarios(posts.post.comments);
       })

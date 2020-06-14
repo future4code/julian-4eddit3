@@ -1,21 +1,38 @@
-import React from 'react'
-import Typography from '@material-ui/core/Typography'
-import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import IconButton from '@material-ui/core/IconButton'
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import React from "react";
+import Typography from "@material-ui/core/Typography";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import IconButton from "@material-ui/core/IconButton";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+import { putVotarComentario } from "../../components/Request/putVotarComentario";
 
 const CardComment = (props) => {
-    return (
-        <Card>
-            <CardContent>
-                <Typography variant="h5" component="h2">{props.nomeUsuario}</Typography>
-            </CardContent>
-            <CardContent>
-                <Typography>{props.comentario}</Typography>
-            </CardContent>
+  const onClickVotarComentario = (voto) => {
+    const body = {
+      idpost: props.idPost,
+      idcomment: props.idComentarios,
+      direction: voto,
+    };
+    putVotarComentario(body)
+      .then((voto) => {
+        props.updatePost();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  return (
+    <Card>
+      <CardContent>
+        <Typography variant="h5" component="h2">
+          {props.nomeUsuario}
+        </Typography>
+      </CardContent>
+      <CardContent>
+        <Typography>{props.comentario}</Typography>
+      </CardContent>
 
             <CardActions>
                 {props.likeComentario === 1 ? <IconButton color="primary" onClick={props.onClickRemoverVotoComentario}>
@@ -37,4 +54,4 @@ const CardComment = (props) => {
     )
 }
 
-export default CardComment
+export default CardComment;
