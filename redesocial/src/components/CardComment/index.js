@@ -18,13 +18,20 @@ const CardComment = (props) => {
             </CardContent>
 
             <CardActions>
-                <IconButton>
+                {props.likeComentario === 1 ? <IconButton color="primary" onClick={props.onClickRemoverVotoComentario}>
                     <ThumbUpAltIcon />
-                </IconButton>
-                    <Typography>{props.votosComentario}</Typography>
-                <IconButton>
+                </IconButton> : 
+                <IconButton onClick={props.onClickLikeComentario}>
+                    <ThumbUpAltIcon />
+                </IconButton> }
+                <Typography>{props.votosComentario}</Typography>
+                {props.likeComentario === -1 ? <IconButton color="primary" onClick={props.onClickRemoverVotoComentario}>
                     <ThumbDownIcon />
-                </IconButton>
+                </IconButton> : 
+                    <IconButton onClick={props.onClickDislikeComentario}>
+                        <ThumbDownIcon />
+                    </IconButton>}
+                
             </CardActions>
         </Card>
     )

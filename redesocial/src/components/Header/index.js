@@ -11,13 +11,19 @@ const Header = () => {
     const onClickLogout = () => {
         localStorage.clear()
         sessionStorage.clear()
+        history.push('/')
         history.go()
+    }
+
+    const onClickFeed = () => {
+        history.push('/')
     }
     return(
         <div>
             <AppBar position="static">
                 <Toolbar>
-                    <Button color="inherit" onClick={onClickLogout}>Logout</Button>
+                    <Button color="inherit" onClick={onClickFeed}>Feed</Button>
+                    <Button color="inherit" edge="end" onClick={onClickLogout}>Logout</Button>
                 </Toolbar>
             </AppBar>
         </div>

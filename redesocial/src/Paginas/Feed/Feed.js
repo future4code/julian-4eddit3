@@ -19,6 +19,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography'
 import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
+import Backdrop from '@material-ui/core/Backdrop'
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 const DivInput = styled.div`
   margin-bottom: 10px;
@@ -28,42 +31,17 @@ const DivPost = styled.div`
   margin-top: 30px;
 `
 
-const ContainerPost = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 10px auto;
-  width: 400px;
-  height: 210px;
-  border: solid 1px black;
-  align-items: center;
-`;
-
-const ContainerRodapePost = styled.div`
-  display: flex;
-  width: 95%;
-  height: 10%;
-`;
-
-const ContainerRodapePostDiretita = styled.div`
-  margin: 0 auto;
-  width: 200px;
-`;
-
-const ContainerRodapePostEsquerda = styled.div`
-  margin: 0 auto;
-`;
-
-const PostFormatado = styled.p`
-  margin: 10px auto;
-  height: 60%;
-  width: 95%;
-  border: solid 1px black;
-`;
+const ContainerWrapper = styled(Container)`
+  &&{
+    margin-top: 10px;
+  }
+`
 
 function Feed() {
   PaginaProtegida();
   const [listaPosts, setListaPosts] = useState([]);
   const [listaDetalhesPost, setListaDetalhesPost] = useState([]);
+  const [openBackdrop, setOpenBackdrop] = useState(true)
   const history = useHistory();
 
   const { form, onChange, resetForm } = useForm({
@@ -86,7 +64,7 @@ function Feed() {
   const onClickFazerPost = () => {
     const body = {
       text: form.textoPost,
-      title: "Não precisa",
+      title: form.tituloPost,
     };
 
     postCriarPost(body)
@@ -130,6 +108,7 @@ function Feed() {
   const carregaPosts = () => {
     getPosts()
       .then((posts) => {
+        setOpenBackdrop(false)
         console.log("Get", posts);
         setListaPosts(posts);
       })
@@ -160,20 +139,33 @@ function Feed() {
   return (
     <div>
       <Header />
-      <Container maxWidth="sm" >
-        <Card >
+      <ContainerWrapper maxWidth="sm">
+        <Backdrop open={openBackdrop}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+        <Card>
           <CardContent>
             <DivInput>
               <TextField
-              type="text"
-              label="Digite post que deseja"
-              onChange={handleInputChange}
-              value={form.textoPost}
-              name="textoPost"
-              multiline
-              rows={4}
-              fullWidth
-              variant="outlined"
+                type="text"
+                label="Digite o título"
+                onChange={handleInputChange}
+                value={form.tituloPost}
+                name="tituloPost"
+                fullWidth
+                variant="outlined"
+              />
+              <TextField
+                type="text"
+                label="Conteúdo do post"
+                onChange={handleInputChange}
+                value={form.textoPost}
+                name="textoPost"
+                multiline
+                rows={4}
+                fullWidth
+                variant="outlined"
+                margin="dense"
               />
             </DivInput>
             <Button variant="contained" color="primary" onClick={onClickFazerPost}>
@@ -184,12 +176,12 @@ function Feed() {
         {listaPosts.map((posts) => (
           <DivPost>
             <Card key={posts.id}>
-              <CardHeader 
+              <CardHeader
                 title={posts.title}
                 subheader={posts.username}
-                />
-              <CardContent>
-                <div onClick={() => postDetails(posts.id, posts.username, posts.text)}>
+                onClick={() => postDetails(posts.id, posts.username, posts.text)} />
+              <CardContent onClick={() => postDetails(posts.id, posts.username, posts.text)}>
+                <div>
                   <Typography>{posts.text}</Typography>
                 </div>
               </CardContent>
@@ -197,26 +189,26 @@ function Feed() {
               <CardActions>
                 {posts.userVoteDirection === 1 ? <IconButton color="primary" onClick={() => onClickRemoverVoto(posts.id, 0)}>
                   <ThumbUpAltIcon />
-                </IconButton> : 
+                </IconButton> :
                   <IconButton onClick={() => onClickVotar(posts.id, 1)}>
                     <ThumbUpAltIcon />
                   </IconButton>}
-                  
+
                 <Typography> {posts.votesCount} </Typography>
 
-                {posts.userVoteDirection === -1 ? <IconButton color="primary" onClick={() => onClickVotar(posts.id, -1)}>
+                {posts.userVoteDirection === -1 ? <IconButton color="primary" onClick={() => onClickRemoverVoto(posts.id, 0)}>
                   <ThumbDownIcon />
                 </IconButton> :
                   <IconButton onClick={() => onClickVotar(posts.id, -1)}>
                     <ThumbDownIcon />
                   </IconButton>}
-                
+
                 <Typography align="right">{posts.commentsCount} comentários</Typography>
               </CardActions>
             </Card>
           </DivPost>
         ))}
-      </Container>
+      </ContainerWrapper>
     </div>
   );
 }

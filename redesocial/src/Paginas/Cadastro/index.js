@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import styled from 'styled-components'
 import { useHistory } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Header from '../../components/Header'
+
+const Botao = styled(Button)`
+    &&{
+        margin-top: 10px;
+    }
+`
 
 const Cadastro = () => {
   const [inputEmail, setInputEmail] = useState("");
@@ -80,9 +87,9 @@ const Cadastro = () => {
           />
         </div>
         <div>
-          <Button variant="contained" color="primary" onClick={onClickCadastrar}>
+          <Botao variant="contained" color="primary" onClick={onClickCadastrar}>
             Cadastrar
-          </Button>
+          </Botao>
         </div>
       </Container>
     </div>

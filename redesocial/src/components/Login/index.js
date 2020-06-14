@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import axios from "axios";
+import styled from 'styled-components'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import FormControl from '@material-ui/core/FormControl';
@@ -11,6 +12,14 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import Backdrop from '@material-ui/core/Backdrop'
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+const Botao = styled(Button)`
+    &&{
+        margin-top: 10px;
+    }
+`
 
 const Login = (props) => {
     const history = useHistory();
@@ -23,6 +32,7 @@ const Login = (props) => {
 
     const [manterLogin, setManterLogin] = useState(false)
     const [open, setOpen] = useState(false)
+    const [openBackdrop, setOpenBackdrop] = useState(false)
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -48,11 +58,21 @@ const Login = (props) => {
         setOpen(false);
     };
 
+    const handleCloseBackdrop = () => {
+        setOpenBackdrop(false)
+    }
+
+    const onClickCadastro = () => {
+        history.push('/cadastro')
+    }
+
     const onClickEntrar = async () => {
         const body = {
             email: form.email,
             password: form.senha,
         };
+
+        setOpenBackdrop(true)
 
         if (manterLogin === true) {
             postLogin(body)
@@ -78,10 +98,6 @@ const Login = (props) => {
                 });
         }
     };
-
-    const teste = () => {
-        setOpen(true)
-    }
 
     const apertaEnter = (event) => {
         if (event.keyCode === 13) {
@@ -121,13 +137,25 @@ const Login = (props) => {
                 }
                 label="Manter Login?"
             />
-            <Button 
+            <Botao 
                 variant="contained" 
                 color="primary"
                 onClick={onClickEntrar}
-                margin="dense">
+                >
                 ENTRAR
-            </Button>
+            </Botao>
+
+            <Botao
+                variant="contained"
+                color="primary"
+                onClick={onClickCadastro}
+                >
+                CADASTRE-SE
+            </Botao>
+
+            <Backdrop open={openBackdrop} onClick={handleCloseBackdrop}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
 
             <Snackbar 
                 open={open} 
@@ -143,6 +171,8 @@ const Login = (props) => {
                     </IconButton>
                 }>
             </Snackbar>
+
+            
         </FormControl>
     )
 }
