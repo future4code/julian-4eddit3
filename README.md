@@ -37,3 +37,5 @@ Essa página só pode ser acessada por um usuário logado. Caso o usuário não 
 A página de um post mostrará o mesmo card de post da página de feed, com o usuário, texto, curtidas e número de comentários. Abaixo, terá um formulário para criação de comentários e os cards de comentários. A estrutura é muito similar à do post, mas comentários não possuem outros comentários dentro deles. A lógica de votos é a mesma do post.
 
 Essa página só pode ser acessada por um usuário logado. Caso o usuário não esteja logado, deverá ser redirecionado para a página de login.
+
+link do surge: julian-4eddit3.surge.sh
